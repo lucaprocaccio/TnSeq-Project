@@ -72,7 +72,27 @@ head(fData)
 ```
 
 ```{r}
+## locus average_fitness    sd   sem N_insertions
+## 1 SP_0001           0.000    NA    NA            0
+## 2 SP_0002           1.082 0.103 0.046            5
+## 3 SP_0003           1.013 0.078 0.032            6
+## 4 SP_0004           0.963 0.087 0.016           29
+## 5 SP_0005           1.063 0.090 0.045            4
+## 6 SP_0006           1.051 0.073 0.005          196
+```
+
+```{r}
 head(geneCoord)
+```
+
+```{r}
+##     Locus Start  End
+## 1 SP_0001   197 1558
+## 2 SP_0002  1717 2853
+## 3 SP_0003  2918 3112
+## 4 SP_0004  3196 4311
+## 5 SP_0005  4382 4951
+## 6 SP_0006  4952 8461
 ```
 
 Data manipulation, in order to have the same loci in the two dataframes and remove NA values.
@@ -105,6 +125,8 @@ plot((geneCoord$Start[fData$average_fitness!=0]+geneCoord$End[fData$average_fitn
 line_parameters_0 <- loess.smooth((geneCoord$Start[fData$average_fitness!=0]+geneCoord$End[fData$average_fitness!=0])/2, fData$average_fitness[fData$average_fitness!=0])
 lines(line_parameters_0, col = "red", lwd = 2)
 ```
+
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-6-1.png"
 
 # Methods of work 
 
@@ -169,6 +191,23 @@ Structure of the resulting dataframe
 head(df)
 ```
 
+```{r}
+##      locus start  end fitness  interval gene_middle_coordinate
+## 1: SP_0002  1717 2853   1.082 (0,1e+05]                   2285
+## 2: SP_0003  2918 3112   1.013 (0,1e+05]                   3015
+## 3: SP_0004  3196 4311   0.963 (0,1e+05]                   3754
+## 4: SP_0005  4382 4951   1.063 (0,1e+05]                   4666
+## 5: SP_0006  4952 8461   1.051 (0,1e+05]                   6706
+## 6: SP_0007  8519 8785   1.046 (0,1e+05]                   8652
+##    window_middle_coordinate window_fitness window_label   gene_label
+## 1:                    50975       1.018836      neutral advantageous
+## 2:                    50975       1.018836      neutral      neutral
+## 3:                    50975       1.018836      neutral      neutral
+## 4:                    50975       1.018836      neutral advantageous
+## 5:                    50975       1.018836      neutral advantageous
+## 6:                    50975       1.018836      neutral advantageous
+```
+
 The average fitness for each interval is shown in the graph below.
 As expected all the windows are in the neutral category. Even if all the windows are in the same category the "smile" shape is clearly visible also here.
 
@@ -177,6 +216,7 @@ plot(df$window_middle_coordinate, df$window_fitness, col = "red", lwd = 2, xlab 
 legend("bottomright", "neutral", col = "black", cex = 0.7, fill = "red")
 ```
 
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-9-1.png"
 
 ## Second method: group of genes
 
@@ -230,6 +270,23 @@ Structure of the resulting new dataframe.
 head(new_df)
 ```
 
+```{r}
+##      locus start  end fitness gene_group   gene_label gene_middle_coordinate
+## 1: SP_0002  1717 2853   1.082    group_1 advantageous                   2285
+## 2: SP_0003  2918 3112   1.013    group_1      neutral                   3015
+## 3: SP_0004  3196 4311   0.963    group_1      neutral                   3754
+## 4: SP_0005  4382 4951   1.063    group_1 advantageous                   4666
+## 5: SP_0006  4952 8461   1.051    group_1 advantageous                   6706
+## 6: SP_0007  8519 8785   1.046    group_1 advantageous                   8652
+##    group_middle_coordinate group_fitness group_label
+## 1:                  142555      1.020845     neutral
+## 2:                  142555      1.020845     neutral
+## 3:                  142555      1.020845     neutral
+## 4:                  142555      1.020845     neutral
+## 5:                  142555      1.020845     neutral
+## 6:                  142555      1.020845     neutral
+```
+
 The average fitness for each group is shown in the graph below.
 Also here all the groups are in the neutral category and the "smile" shape is still present.
 
@@ -237,19 +294,33 @@ Also here all the groups are in the neutral category and the "smile" shape is st
 plot(new_df$group_middle_coordinate, new_df$group_fitness, col = "red", lwd = 2, xlab = "group_middle_coordinate", ylab = "group_average_fitness")
 legend("bottomright", "neutral", col = "black", cex = 0.7, fill = "red")
 ```
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-12-1.png"
 
 Comparison between the elements found in each category for original data, window method and group method.
 
 ```{r}
 table(df$gene_label)
 ```
+```{r}
+## disadvantageous         neutral    advantageous 
+##             180            1168             223
+```
 
 ```{r}
 table(df$window_label)
 ```
+```{r}
+## disadvantageous         neutral    advantageous 
+##               0            1571               0 
+```
 
 ```{r}
 table(new_df$group_label)
+```
+
+```{r}
+## disadvantageous         neutral    advantageous 
+##               0            1571               0 
 ```
 
 As it is already written, the totality of windows and groups average fitness values fall in neutral category, while for original data are present elements also in the other two categories.
@@ -262,6 +333,8 @@ barplot(table(new_df$group_label), col = c("black","red", "green"), main = "Grou
 invisible(dev.off())
 ```
 
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-16-1.png"
+
 Graph of original data that accounts also for the category of genes.
 
 ```{r}
@@ -270,6 +343,8 @@ legend("bottomright",names(table(df$gene_label)), col = c("black","red","green")
 line_parameters <- loess.smooth((df$end - df$start)/2 +df$start, df$fitness)
 lines(line_parameters, col = "blue", lwd = 2)
 ```
+
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-17-1.png"
 
 # Correction
 
@@ -304,6 +379,26 @@ first_model <-lm(window_fitness ~ cos(window_radians), data=train_window)
 summary(first_model)
 ```
 
+```{r}
+## Call:
+##   lm(formula = window_fitness ~ cos(window_radians), data = train_window)
+
+## Residuals:
+##        Min         1Q     Median         3Q        Max 
+## -0.0134714 -0.0052720  0.0002324  0.0053520  0.0109515 
+
+## Coefficients:
+##                      Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)         1.0030769  0.0002529 3966.11   <2e-16 ***
+## cos(window_radians) 0.0209965  0.0003578   58.68   <2e-16 ***
+## ---
+## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+## Residual standard error: 0.00709 on 784 degrees of freedom
+## Multiple R-squared:  0.8146, Adjusted R-squared:  0.8143 
+## F-statistic:  3444 on 1 and 784 DF,  p-value: < 2.2e-16
+```
+
 What it is important to say is that by looking at the adjusted R-squared it can be assumed that the model fits nicely. Both the coefficients have a low p-value, so they are statistically significant. Finally, the p-value associated to the F-statistic is really low, this means that the regression model fits the data better than a model with no predictors.
 
 Homoscedasticity is a topic to keep into account in a linear regression model. It describes a situation in which the error term is the same across all values of the independent variables. The plot below seems to indicate that the residuals and the fitted values are uncorrelated, so the model it is not biased.
@@ -311,6 +406,8 @@ Homoscedasticity is a topic to keep into account in a linear regression model. I
 ```{r}
 plot(first_model$fitted.values, first_model$residuals, xlab = "window_model_fitted.values", ylab = "window_model_residuals")
 ```
+
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-20-1.png"
 
 Once the model is trained, it must be used on the test set, to verify whether it fits well on new data or if it is present overfitting in the training.
 As a measure of goodness of fit it is used the mean squared error(mse). In a model with no errors the mse is equal to zero.
@@ -324,12 +421,18 @@ mse_1 <- 1/nrow(test_window)*sum(prediction_window$fit - test_window$window_fitn
 mse_1
 ```
 
+```{r}
+## [1] 2.0912e-05
+```
+
 Also graphically it can be seen that the model fits quite well.
 
 ```{r}
 plot(test_window$window_middle_coordinate,test_window$window_fitness, ylab = "test_window_fitness", xlab = "test_window_middle_coordinate")
 lines(test_window$window_middle_coordinate,prediction_window$fit, col="red")
 ```
+
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-22-1.png"
 
 Now the model is fitted on original data to correct the "smile" shape and to adjust for incorrect classification of genes. First of all, the coefficents of the regression model are obtained and used in the liner model equation using, in this case, as x the middle coordinates in radians for every single gene. In this way are estimated the predicted fitness values. Then the corrected fitness values are computed by subtracting the original fitness values to the predicted ones and summed to one, since they are distributed around this value. Finally, the labels are re-assigned for the new fitness values.
 
@@ -349,6 +452,8 @@ lines(line_parameters_1, col = "blue", lwd = 2)
 legend("bottomright",names(table(df$gene_label)), col = c("black","red","green"), cex =0.7, fill = c("black","red","green"))
 ```
 
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-24-1.png"
+
 Comparison between the elements assigned to the three categories in original data and after the correction with window model.
 
 ```{r}
@@ -356,7 +461,18 @@ table(label_corrected_1)
 ```
 
 ```{r}
+## label_corrected_1
+## disadvantageous         neutral    advantageous 
+##             175            1256             140 
+```
+
+```{r}
 table(df$gene_label)
+```
+
+```{r}
+## disadvantageous         neutral    advantageous 
+##             180            1168             223
 ```
 
 Selection of the genes that have changed the label and analysis of their distribution.
@@ -367,6 +483,8 @@ changing_genes_1 <- which(df$gene_label != label_corrected_1)
 hist(changing_genes_1, freq = FALSE, breaks = 100, col = "orange",
      main = "Distribution of changing genes in window model")
 ```
+
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-27-1.png"
 
 ## Group model
 
@@ -395,6 +513,26 @@ second_model <-lm(group_fitness ~ cos(group_radians), data=train_group)
 summary(second_model)
 ```
 
+```{r}
+## Call:
+##   lm(formula = group_fitness ~ cos(group_radians), data = train_group)
+
+## Residuals:
+##        Min         1Q     Median         3Q        Max 
+## -0.0079527 -0.0039588 -0.0002041  0.0006593  0.0102959 
+
+## Coefficients:
+##                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)        1.0029879  0.0001729 5801.85   <2e-16 ***
+## cos(group_radians) 0.0199190  0.0002448   81.38   <2e-16 ***
+## ---
+## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+## Residual standard error: 0.004845 on 784 degrees of freedom
+## Multiple R-squared:  0.8941, Adjusted R-squared:  0.894 
+## F-statistic:  6622 on 1 and 784 DF,  p-value: < 2.2e-16
+```
+
 Also in this case the output of the trained regression model is significant, the adjusted R-squared is even higher than the window model, the coefficients are significant having low p-values and the F-statistic is good.
 
 Homoscedasticity seems to be verified because of the absence of an evident pattern, anyway it's not very clear since 8 groups are not that much.
@@ -402,6 +540,8 @@ Homoscedasticity seems to be verified because of the absence of an evident patte
 ```{r}
 plot(second_model$fitted.values, second_model$residuals)
 ```
+
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-30-1.png"
 
 The model is used on the test set and the mean squared error is computed.
 
@@ -413,12 +553,18 @@ mse_2 <- 1/nrow(test_group)*sum(prediction_group$fit - test_group$group_fitness)
 mse_2
 ```
 
+```{r}
+## [1] 8.479467e-07
+```
+
 Graphic view of the goodness of fit of the group model on test set.
 
 ```{r}
 plot(test_group$group_middle_coordinate,test_group$group_fitness, xlab = "test_group_middle_coordinate", ylab = "test_group_fitness")
 lines(test_group$group_middle_coordinate,prediction_group$fit, col="red")
 ```
+
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-32-1.png"
 
 Fitting of the second model on the totality of data with the same procedure already seen for the window model and adjustment for incorrect label classification.
 
@@ -438,6 +584,8 @@ lines(line_parameters_2, col = "blue", lwd = 2)
 legend("bottomright",names(table(df$gene_label)), col = c("black","red","green"), cex = 0.7, fill = c("black","red","green"))
 ```
 
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-34-1.png"
+
 Comparison between the elements assigned to the three categories in original data and after the correction with group model.
 
 ```{r}
@@ -445,7 +593,18 @@ table(label_corrected_2)
 ```
 
 ```{r}
+## label_corrected_2
+## disadvantageous         neutral    advantageous 
+##             174            1258             139
+```
+
+```{r}
 table(new_df$gene_label)
+```
+
+```{r}
+## disadvantageous         neutral    advantageous 
+##             180            1168             223
 ```
 
 Selection of the genes that have changed their label and analysis of their distribution.
@@ -457,10 +616,17 @@ hist(changing_genes_2, freq = FALSE, breaks = 100, col = "orange",
      main = "Distribution of changing genes in group model")
 ```
 
+"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-37-1.png"
+
 It is possible to notice that all the genes that change their label with window model are the same genes that change their label with group model.
 
 ```{r}
 table(changing_genes_1 == changing_genes_2)
+```
+
+```{r}
+## TRUE 
+##  202 
 ```
 
 # Conclusions
