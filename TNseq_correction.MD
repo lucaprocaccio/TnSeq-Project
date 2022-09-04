@@ -216,7 +216,7 @@ plot(df$window_middle_coordinate, df$window_fitness, col = "red", lwd = 2, xlab 
 legend("bottomright", "neutral", col = "black", cex = 0.7, fill = "red")
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-9-1.png"
+![image_2](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-9-1.png)
 
 ## Second method: group of genes
 
@@ -294,7 +294,7 @@ Also here all the groups are in the neutral category and the "smile" shape is st
 plot(new_df$group_middle_coordinate, new_df$group_fitness, col = "red", lwd = 2, xlab = "group_middle_coordinate", ylab = "group_average_fitness")
 legend("bottomright", "neutral", col = "black", cex = 0.7, fill = "red")
 ```
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-12-1.png"
+![image_3](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-12-1.png)
 
 Comparison between the elements found in each category for original data, window method and group method.
 
@@ -333,7 +333,7 @@ barplot(table(new_df$group_label), col = c("black","red", "green"), main = "Grou
 invisible(dev.off())
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-16-1.png"
+![image_4](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-16-1.png)
 
 Graph of original data that accounts also for the category of genes.
 
@@ -344,7 +344,7 @@ line_parameters <- loess.smooth((df$end - df$start)/2 +df$start, df$fitness)
 lines(line_parameters, col = "blue", lwd = 2)
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-17-1.png"
+![image_5](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-17-1.png)
 
 # Correction
 
@@ -407,7 +407,7 @@ Homoscedasticity is a topic to keep into account in a linear regression model. I
 plot(first_model$fitted.values, first_model$residuals, xlab = "window_model_fitted.values", ylab = "window_model_residuals")
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-20-1.png"
+![image_6](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-20-1.png)
 
 Once the model is trained, it must be used on the test set, to verify whether it fits well on new data or if it is present overfitting in the training.
 As a measure of goodness of fit it is used the mean squared error(mse). In a model with no errors the mse is equal to zero.
@@ -432,7 +432,7 @@ plot(test_window$window_middle_coordinate,test_window$window_fitness, ylab = "te
 lines(test_window$window_middle_coordinate,prediction_window$fit, col="red")
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-22-1.png"
+![image_7](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-22-1.png)
 
 Now the model is fitted on original data to correct the "smile" shape and to adjust for incorrect classification of genes. First of all, the coefficents of the regression model are obtained and used in the liner model equation using, in this case, as x the middle coordinates in radians for every single gene. In this way are estimated the predicted fitness values. Then the corrected fitness values are computed by subtracting the original fitness values to the predicted ones and summed to one, since they are distributed around this value. Finally, the labels are re-assigned for the new fitness values.
 
@@ -452,7 +452,7 @@ lines(line_parameters_1, col = "blue", lwd = 2)
 legend("bottomright",names(table(df$gene_label)), col = c("black","red","green"), cex =0.7, fill = c("black","red","green"))
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-24-1.png"
+![image_8](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-24-1.png)
 
 Comparison between the elements assigned to the three categories in original data and after the correction with window model.
 
@@ -484,7 +484,7 @@ hist(changing_genes_1, freq = FALSE, breaks = 100, col = "orange",
      main = "Distribution of changing genes in window model")
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-27-1.png"
+![image_9](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-27-1.png)
 
 ## Group model
 
@@ -541,7 +541,7 @@ Homoscedasticity seems to be verified because of the absence of an evident patte
 plot(second_model$fitted.values, second_model$residuals)
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-30-1.png"
+![image_10](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-30-1.png)
 
 The model is used on the test set and the mean squared error is computed.
 
@@ -564,7 +564,7 @@ plot(test_group$group_middle_coordinate,test_group$group_fitness, xlab = "test_g
 lines(test_group$group_middle_coordinate,prediction_group$fit, col="red")
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-32-1.png"
+![image_11](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-32-1.png)
 
 Fitting of the second model on the totality of data with the same procedure already seen for the window model and adjustment for incorrect label classification.
 
@@ -584,7 +584,7 @@ lines(line_parameters_2, col = "blue", lwd = 2)
 legend("bottomright",names(table(df$gene_label)), col = c("black","red","green"), cex = 0.7, fill = c("black","red","green"))
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-34-1.png"
+![image_12](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-34-1.png)
 
 Comparison between the elements assigned to the three categories in original data and after the correction with group model.
 
@@ -616,7 +616,7 @@ hist(changing_genes_2, freq = FALSE, breaks = 100, col = "orange",
      main = "Distribution of changing genes in group model")
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-37-1.png"
+![image_13](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-37-1.png)
 
 It is possible to notice that all the genes that change their label with window model are the same genes that change their label with group model.
 
