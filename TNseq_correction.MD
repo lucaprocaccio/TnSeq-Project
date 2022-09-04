@@ -126,7 +126,7 @@ line_parameters_0 <- loess.smooth((geneCoord$Start[fData$average_fitness!=0]+gen
 lines(line_parameters_0, col = "red", lwd = 2)
 ```
 
-"C:\Users\luca3\Documents\GitHub\TnSeq-Project\figure-html\unnamed-chunk-6-1.png"
+![image_1](https://github.com/lucaprocaccio/TnSeq-Project/blob/main/figure-html/unnamed-chunk-6-1.png)
 
 # Methods of work 
 
